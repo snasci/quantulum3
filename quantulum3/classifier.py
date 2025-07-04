@@ -167,10 +167,12 @@ def train_classifier(
 
     train_target = [target_names.index(example["unit"]) for example in training_set]
 
+    stops = _get_classifier(lang).stop_words()
+
     tfidf_model = TfidfVectorizer(
         sublinear_tf=True,
         ngram_range=ngram_range,
-        stop_words=_get_classifier(lang).stop_words(),
+        stop_words=stops,
     )
 
     _LOGGER.info("Fit TFIDF Model")
