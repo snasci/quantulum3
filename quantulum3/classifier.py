@@ -21,13 +21,13 @@ try:
     from sklearn.linear_model import SGDClassifier
 
     USE_CLF = True
-except ImportError:
+except ImportError as e:
     SGDClassifier, TfidfVectorizer = None, None
     USE_CLF = False
 
     warnings.warn(
         "Classifier dependencies not installed. Run pip install quantulum3[classifier] "
-        "to install them. The classifer helps to dissambiguate units."
+        f"to install them. The classifer helps to dissambiguate units. {e}"
     )
 
 try:
