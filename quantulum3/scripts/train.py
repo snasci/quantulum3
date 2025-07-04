@@ -57,6 +57,7 @@ def main(args=None):
     )
 
     args = parser.parse_args(args)
+    print(args)
 
     if args.data is not None:
         training_set = []
@@ -71,6 +72,7 @@ def main(args=None):
         # override this option if an output file is given, feels intuitive to do
         args.store = True
 
+    print(f"adsfadsfdf {args.lang}")
     _LOGGER.info(
         "Start training for language {}, {}storing the classifier".format(
             args.lang, "" if args.store else "not "

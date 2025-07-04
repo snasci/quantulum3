@@ -9,7 +9,7 @@ import multiprocessing
 import os
 import warnings
 
-import pkg_resources
+from importlib.metadata import version
 
 from . import language, load
 from .load import cached
@@ -144,6 +144,7 @@ def train_classifier(
         Path to save the classifier to. If None, the classifier will be saved
         to the default location for the given language.
     """
+    print(f"ASDFASDF {lang}")
     _LOGGER.info("Started training, parallelized with {} jobs".format(n_jobs))
     _LOGGER.info("Loading training set")
     if training_set is None:
@@ -177,7 +178,7 @@ def train_classifier(
 
     if parameters is None:
         parameters = {
-            "loss": "log",
+            "loss": "log_loss",
             "penalty": "l2",
             "tol": 1e-3,
             "n_jobs": n_jobs,
@@ -189,7 +190,7 @@ def train_classifier(
     _LOGGER.info("Fit SGD Classifier")
     clf = SGDClassifier(**parameters).fit(matrix, train_target)
     obj = {
-        "scikit-learn_version": pkg_resources.get_distribution("scikit-learn").version,
+        "scikit-learn_version": version("scikit-learn"),
         "tfidf_model": tfidf_model,
         "clf": clf,
         "target_names": target_names,
@@ -237,7 +238,7 @@ class Classifier(object):
             with open(classifier_path, "rb") as file:
                 classifier_object = joblib.load(file)
 
-        cur_scipy_version = pkg_resources.get_distribution("scikit-learn").version
+        cur_scipy_version = version("scikit-learn")
         if cur_scipy_version != classifier_object.get(
             "scikit-learn_version"
         ):  # pragma: no cover
